@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Beta Access</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            font-family: Arial, sans-serif;
+
+            background:
+                radial-gradient(
+                    circle at top,
+                    #172554,
+                    #020617 70%
+                );
+
+            color: white;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 480px;
+
+            padding: 40px;
+
+            background: rgba(15, 23, 42, 0.9);
+
+            border: 1px solid
+                rgba(255, 255, 255, 0.1);
+
+            border-radius: 24px;
+
+            box-shadow:
+                0 25px 80px
+                rgba(0, 0, 0, 0.5);
+
+            text-align: center;
+
+            backdrop-filter: blur(20px);
+        }
+
+        .logo {
+            width: 75px;
+            height: 75px;
+
+            margin: 0 auto 20px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            border-radius: 20px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #3b82f6,
+                    #6366f1
+                );
+
+            font-size: 35px;
+        }
+
+        h1 {
+            margin-bottom: 10px;
+            font-size: 32px;
+        }
+
+        .description {
+            color: #94a3b8;
+            line-height: 1.6;
+            margin-bottom: 25px;
+        }
+
+        .highlight {
+            color: #60a5fa;
+            font-weight: bold;
+        }
+
+        input {
+            width: 100%;
+
+            padding: 15px;
+
+            margin-bottom: 12px;
+
+            border-radius: 12px;
+
+            border: 1px solid
+                rgba(255,255,255,0.1);
+
+            background: #0f172a;
+
+            color: white;
+
+            outline: none;
+
+            font-size: 15px;
+        }
+
+        input:focus {
+            border-color: #3b82f6;
+        }
+
+        button {
+            width: 100%;
+
+            padding: 15px;
+
+            border: none;
+
+            border-radius: 12px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #3b82f6,
+                    #6366f1
+                );
+
+            color: white;
+
+            font-size: 16px;
+
+            font-weight: bold;
+
+            cursor: pointer;
+        }
+
+        button:hover {
+            opacity: 0.9;
+        }
+
+        button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        #message {
+            margin-top: 20px;
+            min-height: 24px;
+        }
+
+        .success {
+            color: #4ade80;
+        }
+
+        .error {
+            color: #f87171;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <div class="logo">
+        🎟️
+    </div>
+
+    <h1>Beta Access</h1>
+
+    <div class="description">
+        To Get an Beta Code Get it From
+        <span class="highlight">notpoki13</span>
+    </div>
+
+    <input
+        id="username"
+        type="text"
+        placeholder="Enter your username"
+        maxlength="50"
+    >
+
+    <input
+        id="code"
+        type="text"
+        placeholder="Enter your beta code"
+        maxlength="12"
+        autocomplete="off"
+    >
+
+    <button id="redeem">
+        Redeem Beta Code
+    </button>
+
+    <div id="message"></div>
+
+</div>
+
+<script>
+
+const API_URL =
+    "https://beta-code-api.omarksa938.workers.dev/";
+
+const username =
+    document.getElementById("username");
+
+const code =
+    document.getElementById("code");
+
+const button =
+    document.getElementById("redeem");
+
+const message =
+    document.getElementById("message");
+
+
+code.addEventListener("input", () => {
+
+    code.value =
+        code.value.toUpperCase();
+
+});
+
+
+button.addEventListener("click", async () => {
+
+    const user =
+        username.value.trim();
+
+    const betaCode =
+        code.value.trim();
+
+    message.className = "";
+    message.textContent = "";
+
+    if (!user || !betaCode) {
+
+        message.className = "error";
+
+        message.textContent =
+            "Please enter your username and beta code.";
+
+        return;
+    }
+
+    button.disabled = true;
+
+    button.textContent =
+        "Redeeming...";
+
+    try {
+
+        const response =
+            await fetch(API_URL, {
+
+                method: "POST",
+
+                headers: {
+                    "Content-Type":
+                        "application/json"
+                },
+
+                body: JSON.stringify({
+                    username: user,
+                    code: betaCode
+                })
+
+            });
+
+        const data =
+            await response.json();
+
+        if (data.success) {
+
+            message.className =
+                "success";
+
+            message.textContent =
+                "✅ " + data.message;
+
+            code.value = "";
+
+        } else {
+
+            message.className =
+                "error";
+
+            message.textContent =
+                "❌ " + data.message;
+        }
+
+    } catch (error) {
+
+        message.className =
+            "error";
+
+        message.textContent =
+            "❌ Could not connect to the server.";
+
+    }
+
+    button.disabled = false;
+
+    button.textContent =
+        "Redeem Beta Code";
+
+});
+
+</script>
+
+</body>
+</html>
