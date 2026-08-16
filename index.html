@@ -1,25 +1,37 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
 
     <title>Beta Access</title>
 
     <style>
+
         * {
             box-sizing: border-box;
         }
 
         body {
             margin: 0;
+
             min-height: 100vh;
 
             display: flex;
+
             justify-content: center;
+
             align-items: center;
 
-            font-family: Arial, sans-serif;
+            font-family:
+                Arial,
+                Helvetica,
+                sans-serif;
 
             background:
                 radial-gradient(
@@ -33,34 +45,57 @@
 
         .container {
             width: 90%;
+
             max-width: 480px;
 
             padding: 40px;
 
-            background: rgba(15, 23, 42, 0.9);
+            background:
+                rgba(
+                    15,
+                    23,
+                    42,
+                    0.9
+                );
 
-            border: 1px solid
-                rgba(255, 255, 255, 0.1);
+            border:
+                1px solid
+                rgba(
+                    255,
+                    255,
+                    255,
+                    0.1
+                );
 
             border-radius: 24px;
 
             box-shadow:
                 0 25px 80px
-                rgba(0, 0, 0, 0.5);
+                rgba(
+                    0,
+                    0,
+                    0,
+                    0.5
+                );
 
             text-align: center;
 
-            backdrop-filter: blur(20px);
+            backdrop-filter:
+                blur(20px);
         }
 
         .logo {
             width: 75px;
+
             height: 75px;
 
-            margin: 0 auto 20px;
+            margin:
+                0 auto 20px;
 
             display: flex;
+
             align-items: center;
+
             justify-content: center;
 
             border-radius: 20px;
@@ -73,21 +108,35 @@
                 );
 
             font-size: 35px;
+
+            box-shadow:
+                0 10px 40px
+                rgba(
+                    59,
+                    130,
+                    246,
+                    0.4
+                );
         }
 
         h1 {
-            margin-bottom: 10px;
+            margin:
+                0 0 10px;
+
             font-size: 32px;
         }
 
         .description {
             color: #94a3b8;
+
             line-height: 1.6;
+
             margin-bottom: 25px;
         }
 
         .highlight {
             color: #60a5fa;
+
             font-weight: bold;
         }
 
@@ -100,8 +149,14 @@
 
             border-radius: 12px;
 
-            border: 1px solid
-                rgba(255,255,255,0.1);
+            border:
+                1px solid
+                rgba(
+                    255,
+                    255,
+                    255,
+                    0.1
+                );
 
             background: #0f172a;
 
@@ -113,7 +168,17 @@
         }
 
         input:focus {
-            border-color: #3b82f6;
+            border-color:
+                #3b82f6;
+
+            box-shadow:
+                0 0 0 3px
+                rgba(
+                    59,
+                    130,
+                    246,
+                    0.15
+                );
         }
 
         button {
@@ -139,20 +204,34 @@
             font-weight: bold;
 
             cursor: pointer;
+
+            transition:
+                transform 0.2s,
+                opacity 0.2s;
         }
 
         button:hover {
-            opacity: 0.9;
+            transform:
+                translateY(-2px);
+
+            opacity: 0.95;
         }
 
         button:disabled {
             opacity: 0.5;
-            cursor: not-allowed;
+
+            cursor:
+                not-allowed;
+
+            transform: none;
         }
 
         #message {
             margin-top: 20px;
+
             min-height: 24px;
+
+            font-weight: bold;
         }
 
         .success {
@@ -162,30 +241,55 @@
         .error {
             color: #f87171;
         }
+
+        .footer {
+            margin-top: 25px;
+
+            color: #64748b;
+
+            font-size: 12px;
+        }
+
     </style>
+
 </head>
+
 
 <body>
 
+
 <div class="container">
+
 
     <div class="logo">
         🎟️
     </div>
 
-    <h1>Beta Access</h1>
+
+    <h1>
+        Beta Access
+    </h1>
+
 
     <div class="description">
+
         To Get an Beta Code Get it From
-        <span class="highlight">notpoki13</span>
+
+        <span class="highlight">
+            notpoki13
+        </span>
+
     </div>
+
 
     <input
         id="username"
         type="text"
         placeholder="Enter your username"
         maxlength="50"
+        autocomplete="off"
     >
+
 
     <input
         id="code"
@@ -195,125 +299,326 @@
         autocomplete="off"
     >
 
+
     <button id="redeem">
+
         Redeem Beta Code
+
     </button>
+
 
     <div id="message"></div>
 
+
+    <div class="footer">
+
+        Beta Code System
+
+    </div>
+
+
 </div>
+
 
 <script>
 
+
+// ==================================================
+// YOUR CLOUDFLARE WORKER URL
+// ==================================================
+
 const API_URL =
-    "https://beta-code-api.omarksa938.workers.dev/";
+    "beta-code-api.omarksa938.workers.dev";
 
-const username =
-    document.getElementById("username");
 
-const code =
-    document.getElementById("code");
+// ==================================================
+// GET ELEMENTS
+// ==================================================
 
-const button =
-    document.getElementById("redeem");
+const usernameInput =
+    document.getElementById(
+        "username"
+    );
+
+const codeInput =
+    document.getElementById(
+        "code"
+    );
+
+const redeemButton =
+    document.getElementById(
+        "redeem"
+    );
 
 const message =
-    document.getElementById("message");
+    document.getElementById(
+        "message"
+    );
 
 
-code.addEventListener("input", () => {
+// ==================================================
+// CREATE / GET BROWSER ID
+// ==================================================
 
-    code.value =
-        code.value.toUpperCase();
+function getDeviceId() {
 
-});
+    let deviceId =
+        localStorage.getItem(
+            "betaDeviceId"
+        );
 
 
-button.addEventListener("click", async () => {
+    // If this browser doesn't
+    // have an ID yet, create one.
 
-    const user =
-        username.value.trim();
+    if (!deviceId) {
 
-    const betaCode =
-        code.value.trim();
+        deviceId =
+            crypto.randomUUID();
 
-    message.className = "";
-    message.textContent = "";
+        localStorage.setItem(
+            "betaDeviceId",
+            deviceId
+        );
 
-    if (!user || !betaCode) {
-
-        message.className = "error";
-
-        message.textContent =
-            "Please enter your username and beta code.";
-
-        return;
     }
 
-    button.disabled = true;
 
-    button.textContent =
-        "Redeeming...";
+    return deviceId;
 
-    try {
+}
 
-        const response =
-            await fetch(API_URL, {
 
-                method: "POST",
+// ==================================================
+// CONVERT CODE TO UPPERCASE
+// ==================================================
 
-                headers: {
-                    "Content-Type":
-                        "application/json"
-                },
+codeInput.addEventListener(
+    "input",
+    function () {
 
-                body: JSON.stringify({
-                    username: user,
-                    code: betaCode
-                })
+        codeInput.value =
+            codeInput.value.toUpperCase();
 
-            });
+    }
+);
 
-        const data =
-            await response.json();
 
-        if (data.success) {
+// ==================================================
+// REDEEM BUTTON
+// ==================================================
 
-            message.className =
-                "success";
+redeemButton.addEventListener(
+    "click",
+    async function () {
 
-            message.textContent =
-                "✅ " + data.message;
 
-            code.value = "";
+        const username =
+            usernameInput.value.trim();
 
-        } else {
+
+        const code =
+            codeInput.value.trim();
+
+
+        // ------------------------------------------
+        // CLEAR OLD MESSAGE
+        // ------------------------------------------
+
+        message.className = "";
+
+        message.textContent = "";
+
+
+        // ------------------------------------------
+        // CHECK INPUT
+        // ------------------------------------------
+
+        if (!username) {
 
             message.className =
                 "error";
 
             message.textContent =
-                "❌ " + data.message;
+                "❌ Please enter your username.";
+
+            return;
+
         }
 
-    } catch (error) {
 
-        message.className =
-            "error";
+        if (!code) {
 
-        message.textContent =
-            "❌ Could not connect to the server.";
+            message.className =
+                "error";
+
+            message.textContent =
+                "❌ Please enter your beta code.";
+
+            return;
+
+        }
+
+
+        // ------------------------------------------
+        // DISABLE BUTTON
+        // ------------------------------------------
+
+        redeemButton.disabled =
+            true;
+
+        redeemButton.textContent =
+            "Redeeming...";
+
+
+        try {
+
+
+            // --------------------------------------
+            // GET BROWSER ID
+            // --------------------------------------
+
+            const deviceId =
+                getDeviceId();
+
+
+            // --------------------------------------
+            // SEND REQUEST TO CLOUDFLARE
+            // --------------------------------------
+
+            const response =
+                await fetch(
+                    API_URL,
+                    {
+
+                        method:
+                            "POST",
+
+                        headers: {
+
+                            "Content-Type":
+                                "application/json"
+
+                        },
+
+                        body:
+                            JSON.stringify({
+
+                                username:
+                                    username,
+
+                                code:
+                                    code,
+
+                                deviceId:
+                                    deviceId
+
+                            })
+
+                    }
+                );
+
+
+            // --------------------------------------
+            // READ RESPONSE
+            // --------------------------------------
+
+            let data;
+
+
+            try {
+
+                data =
+                    await response.json();
+
+            } catch {
+
+                throw new Error(
+                    "Invalid server response."
+                );
+
+            }
+
+
+            // --------------------------------------
+            // SUCCESS
+            // --------------------------------------
+
+            if (
+                response.ok &&
+                data.success
+            ) {
+
+                message.className =
+                    "success";
+
+                message.textContent =
+                    "✅ " +
+                    data.message;
+
+                codeInput.value = "";
+
+
+            }
+
+
+            // --------------------------------------
+            // ERROR
+            // --------------------------------------
+
+            else {
+
+                message.className =
+                    "error";
+
+                message.textContent =
+                    "❌ " +
+                    (
+                        data.message ||
+                        "Something went wrong."
+                    );
+
+            }
+
+
+        } catch (error) {
+
+
+            console.error(
+                "Redeem error:",
+                error
+            );
+
+
+            message.className =
+                "error";
+
+
+            message.textContent =
+                "❌ Could not connect to the server.";
+
+
+        }
+
+
+        // ------------------------------------------
+        // ENABLE BUTTON AGAIN
+        // ------------------------------------------
+
+        redeemButton.disabled =
+            false;
+
+        redeemButton.textContent =
+            "Redeem Beta Code";
+
 
     }
+);
 
-    button.disabled = false;
-
-    button.textContent =
-        "Redeem Beta Code";
-
-});
 
 </script>
 
+
 </body>
+
 </html>
