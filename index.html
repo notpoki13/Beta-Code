@@ -22,13 +22,22 @@
             box-sizing: border-box;
         }
 
+        html,
         body {
             margin: 0;
+            padding: 0;
+            width: 100%;
+            min-height: 100%;
+        }
+
+        body {
             min-height: 100vh;
 
             display: flex;
             align-items: center;
             justify-content: center;
+
+            padding: 20px;
 
             font-family:
                 Arial,
@@ -38,30 +47,32 @@
             background:
                 radial-gradient(
                     circle at top,
-                    #171f48,
-                    #080b20 70%
+                    #1b2450 0%,
+                    #0b0f25 65%,
+                    #050718 100%
                 );
 
-            color: white;
+            color: #ffffff;
         }
 
         .container {
             width: 100%;
             max-width: 480px;
 
-            margin: 20px;
             padding: 40px;
 
-            background: rgba(20, 25, 48, 0.92);
+            background:
+                rgba(18, 24, 48, 0.94);
 
-            border: 1px solid
+            border:
+                1px solid
                 rgba(255, 255, 255, 0.12);
 
             border-radius: 24px;
 
             box-shadow:
-                0 20px 60px
-                rgba(0, 0, 0, 0.45);
+                0 25px 70px
+                rgba(0, 0, 0, 0.5);
 
             text-align: center;
         }
@@ -70,7 +81,8 @@
             width: 76px;
             height: 76px;
 
-            margin: 0 auto 20px;
+            margin:
+                0 auto 20px;
 
             display: flex;
             align-items: center;
@@ -81,27 +93,30 @@
             background:
                 linear-gradient(
                     135deg,
-                    #5b82ee,
+                    #5f84ef,
                     #7354df
                 );
 
             font-size: 38px;
 
             box-shadow:
-                0 10px 30px
-                rgba(91, 130, 238, 0.3);
+                0 12px 35px
+                rgba(91, 126, 239, 0.3);
         }
 
         h1 {
-            margin: 0 0 12px;
+            margin:
+                0 0 12px;
 
             font-size: 34px;
+            font-weight: 700;
         }
 
         .description {
-            margin: 0 0 26px;
+            margin:
+                0 0 26px;
 
-            color: #9da5bd;
+            color: #9da6c0;
 
             font-size: 16px;
 
@@ -112,43 +127,84 @@
             color: #70a0ff;
         }
 
-        input {
+        .input {
             width: 100%;
 
-            padding: 15px;
+            height: 52px;
+
+            padding:
+                0 16px;
 
             margin-bottom: 12px;
 
-            border-radius: 12px;
-
-            border: 1px solid
+            border:
+                1px solid
                 rgba(255, 255, 255, 0.13);
 
-            background: #11162b;
+            border-radius: 12px;
 
-            color: white;
+            outline: none;
+
+            background:
+                #11162b;
+
+            color: #ffffff;
 
             font-size: 16px;
 
-            outline: none;
+            transition:
+                border-color 0.15s,
+                box-shadow 0.15s;
         }
 
-        input:focus {
+        .input:focus {
             border-color: #637df0;
+
+            box-shadow:
+                0 0 0 3px
+                rgba(99, 125, 240, 0.12);
         }
 
-        input::placeholder {
-            color: #7e869e;
+        .input::placeholder {
+            color: #788199;
         }
 
-        button {
+        .turnstile-box {
             width: 100%;
 
-            padding: 15px;
+            min-height: 70px;
 
-            margin-top: 4px;
+            margin:
+                18px 0;
 
-            border: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            position: relative;
+
+            z-index: 1;
+        }
+
+        #turnstile-widget {
+            min-height: 65px;
+        }
+
+        .redeem-button {
+            position: relative;
+
+            z-index: 10;
+
+            display: block;
+
+            width: 100%;
+
+            min-height: 52px;
+
+            padding:
+                0 16px;
+
+            border: none;
 
             border-radius: 12px;
 
@@ -159,37 +215,42 @@
                     #7353df
                 );
 
-            color: white;
+            color: #ffffff;
 
             font-size: 16px;
 
-            font-weight: bold;
+            font-weight: 700;
 
             cursor: pointer;
 
+            user-select: none;
+
             transition:
                 transform 0.15s,
-                opacity 0.15s;
+                opacity 0.15s,
+                filter 0.15s;
         }
 
-        button:hover {
-            transform: translateY(-1px);
+        .redeem-button:hover {
+            filter: brightness(1.08);
+
+            transform:
+                translateY(-1px);
         }
 
-        button:disabled {
+        .redeem-button:active {
+            transform:
+                translateY(0);
+        }
+
+        .redeem-button:disabled {
             opacity: 0.6;
 
             cursor: not-allowed;
 
             transform: none;
-        }
 
-        .turnstile-container {
-            display: flex;
-
-            justify-content: center;
-
-            margin: 18px 0;
+            filter: none;
         }
 
         #message {
@@ -199,7 +260,9 @@
 
             font-size: 16px;
 
-            font-weight: bold;
+            font-weight: 700;
+
+            line-height: 1.4;
         }
 
         .success {
@@ -211,21 +274,27 @@
         }
 
         .loading {
-            color: #9da5bd;
+            color: #9da6c0;
         }
 
         .footer {
             margin-top: 28px;
 
-            color: #707993;
+            color: #707a95;
 
             font-size: 13px;
         }
 
         @media (max-width: 520px) {
 
+            body {
+                padding: 12px;
+            }
+
             .container {
                 padding: 30px 22px;
+
+                border-radius: 20px;
             }
 
             h1 {
@@ -237,7 +306,7 @@
 
 <body>
 
-    <div class="container">
+    <main class="container">
 
         <div class="icon">
             🎟️
@@ -256,43 +325,43 @@
         <!-- Roblox Username -->
 
         <input
+            class="input"
             id="username"
             type="text"
             placeholder="Enter your Roblox username"
             maxlength="50"
             autocomplete="off"
+            spellcheck="false"
         >
 
 
         <!-- Beta Code -->
 
         <input
+            class="input"
             id="code"
             type="text"
             placeholder="Enter your beta code"
             maxlength="50"
             autocomplete="off"
             autocapitalize="characters"
+            spellcheck="false"
         >
 
 
         <!-- Cloudflare Turnstile -->
 
-        <div class="turnstile-container">
+        <div class="turnstile-box">
 
-            <div
-                class="cf-turnstile"
-                id="turnstile"
-                data-sitekey="0x4AAAAAAESKnGBqrCQqHaVm"
-                data-theme="dark"
-            ></div>
+            <div id="turnstile-widget"></div>
 
         </div>
 
 
-        <!-- Redeem -->
+        <!-- Redeem Button -->
 
         <button
+            class="redeem-button"
             id="redeemButton"
             type="button"
         >
@@ -300,7 +369,7 @@
         </button>
 
 
-        <!-- Result -->
+        <!-- Result Message -->
 
         <div
             id="message"
@@ -312,42 +381,66 @@
             Subliminal Beta Code System
         </div>
 
-    </div>
+    </main>
 
 
     <script>
 
-        // =========================================
-        // CLOUDFLARE WORKER URL
-        // =========================================
+        // =====================================================
+        // CONFIGURATION
+        // =====================================================
 
         const API_URL =
             "https://beta-code-api.omarksa938.workers.dev";
 
 
-        // =========================================
+        // =====================================================
+        // TURNSTILE SITE KEY
+        //
+        // ONLY PUT YOUR SITE KEY HERE.
+        //
+        // DO NOT PUT YOUR SECRET KEY HERE.
+        // =====================================================
+
+        const TURNSTILE_SITE_KEY =
+            "0x4AAAAAAESKnGBqrCQqHaVm";
+
+
+        // =====================================================
         // ELEMENTS
-        // =========================================
+        // =====================================================
 
         const usernameInput =
-            document.getElementById("username");
+            document.getElementById(
+                "username"
+            );
 
         const codeInput =
-            document.getElementById("code");
+            document.getElementById(
+                "code"
+            );
 
         const redeemButton =
-            document.getElementById("redeemButton");
+            document.getElementById(
+                "redeemButton"
+            );
 
         const message =
-            document.getElementById("message");
+            document.getElementById(
+                "message"
+            );
 
 
-        // =========================================
+        // =====================================================
+        // TURNSTILE TOKEN
+        // =====================================================
+
+        let turnstileToken = "";
+
+
+        // =====================================================
         // DEVICE ID
-        //
-        // This ID is stored locally in the browser.
-        // It is NOT a secret.
-        // =========================================
+        // =====================================================
 
         function getDeviceId() {
 
@@ -355,14 +448,17 @@
                 "subliminal_beta_device_id";
 
             let deviceId =
-                localStorage.getItem(storageKey);
+                localStorage.getItem(
+                    storageKey
+                );
 
 
             if (!deviceId) {
 
                 if (
                     window.crypto &&
-                    crypto.randomUUID
+                    typeof crypto.randomUUID ===
+                        "function"
                 ) {
 
                     deviceId =
@@ -371,7 +467,13 @@
                 } else {
 
                     deviceId =
-                        Date.now().toString(36) +
+                        Date.now()
+                            .toString(36) +
+                        "-" +
+                        Math.random()
+                            .toString(36)
+                            .substring(2) +
+                        "-" +
                         Math.random()
                             .toString(36)
                             .substring(2);
@@ -389,9 +491,9 @@
         }
 
 
-        // =========================================
+        // =====================================================
         // MESSAGE
-        // =========================================
+        // =====================================================
 
         function showMessage(
             text,
@@ -406,35 +508,162 @@
         }
 
 
-        // =========================================
-        // GET TURNSTILE TOKEN
-        // =========================================
+        // =====================================================
+        // TURNSTILE CALLBACK
+        // =====================================================
 
-        function getTurnstileToken() {
+        function onTurnstileSuccess(
+            token
+        ) {
+
+            turnstileToken =
+                token;
+        }
+
+
+        // =====================================================
+        // TURNSTILE EXPIRED
+        // =====================================================
+
+        function onTurnstileExpired() {
+
+            turnstileToken =
+                "";
+
+            showMessage(
+                "Please complete the security check again.",
+                "error"
+            );
+        }
+
+
+        // =====================================================
+        // TURNSTILE ERROR
+        // =====================================================
+
+        function onTurnstileError() {
+
+            turnstileToken =
+                "";
+
+            showMessage(
+                "Security check failed. Please try again.",
+                "error"
+            );
+        }
+
+
+        // =====================================================
+        // RENDER TURNSTILE
+        // =====================================================
+
+        function setupTurnstile() {
+
+            if (
+                TURNSTILE_SITE_KEY ===
+                "PASTE_YOUR_TURNSTILE_SITE_KEY_HERE"
+            ) {
+
+                showMessage(
+                    "Turnstile Site Key has not been configured.",
+                    "error"
+                );
+
+                return;
+            }
+
 
             if (
                 typeof turnstile ===
                 "undefined"
             ) {
 
-                return "";
+                setTimeout(
+                    setupTurnstile,
+                    500
+                );
+
+                return;
             }
 
 
-            return turnstile.getResponse();
+            try {
+
+                turnstile.render(
+                    "#turnstile-widget",
+                    {
+                        sitekey:
+                            TURNSTILE_SITE_KEY,
+
+                        theme:
+                            "dark",
+
+                        callback:
+                            onTurnstileSuccess,
+
+                        "expired-callback":
+                            onTurnstileExpired,
+
+                        "error-callback":
+                            onTurnstileError
+                    }
+                );
+
+            } catch (error) {
+
+                console.error(
+                    "Turnstile error:",
+                    error
+                );
+
+                showMessage(
+                    "Security check could not load.",
+                    "error"
+                );
+            }
         }
 
 
-        // =========================================
+        // =====================================================
+        // RESET TURNSTILE
+        // =====================================================
+
+        function resetTurnstile() {
+
+            turnstileToken =
+                "";
+
+            if (
+                typeof turnstile !==
+                "undefined"
+            ) {
+
+                try {
+
+                    turnstile.reset();
+
+                } catch (error) {
+
+                    console.error(
+                        "Turnstile reset error:",
+                        error
+                    );
+                }
+            }
+        }
+
+
+        // =====================================================
         // REDEEM
-        // =========================================
+        // =====================================================
 
         redeemButton.addEventListener(
             "click",
             async function () {
 
                 const username =
-                    usernameInput.value.trim();
+                    usernameInput.value
+                        .trim();
 
                 const code =
                     codeInput.value
@@ -442,9 +671,9 @@
                         .toUpperCase();
 
 
-                // ---------------------------------
-                // BASIC VALIDATION
-                // ---------------------------------
+                // -----------------------------------------
+                // USERNAME
+                // -----------------------------------------
 
                 if (!username) {
 
@@ -453,9 +682,15 @@
                         "error"
                     );
 
+                    usernameInput.focus();
+
                     return;
                 }
 
+
+                // -----------------------------------------
+                // CODE
+                // -----------------------------------------
 
                 if (!code) {
 
@@ -464,17 +699,15 @@
                         "error"
                     );
 
+                    codeInput.focus();
+
                     return;
                 }
 
 
-                // ---------------------------------
+                // -----------------------------------------
                 // TURNSTILE
-                // ---------------------------------
-
-                const turnstileToken =
-                    getTurnstileToken();
-
+                // -----------------------------------------
 
                 if (!turnstileToken) {
 
@@ -487,9 +720,9 @@
                 }
 
 
-                // ---------------------------------
+                // -----------------------------------------
                 // DISABLE BUTTON
-                // ---------------------------------
+                // -----------------------------------------
 
                 redeemButton.disabled =
                     true;
@@ -506,15 +739,16 @@
 
                 try {
 
-                    // =============================
-                    // SEND TO WORKER
-                    // =============================
+                    // =====================================
+                    // SEND REQUEST
+                    // =====================================
 
                     const response =
                         await fetch(
                             API_URL,
                             {
-                                method: "POST",
+                                method:
+                                    "POST",
 
                                 headers: {
                                     "Content-Type":
@@ -535,14 +769,15 @@
 
                                         turnstileToken:
                                             turnstileToken
+
                                     })
                             }
                         );
 
 
-                    // =============================
-                    // READ RESPONSE
-                    // =============================
+                    // =====================================
+                    // READ SERVER RESPONSE
+                    // =====================================
 
                     let result;
 
@@ -555,20 +790,23 @@
                     } catch {
 
                         result = {
-                            success: false,
+                            success:
+                                false,
+
                             message:
                                 "Server error."
                         };
                     }
 
 
-                    // =============================
+                    // =====================================
                     // SUCCESS
-                    // =============================
+                    // =====================================
 
                     if (
                         response.ok &&
-                        result.success
+                        result.success ===
+                            true
                     ) {
 
                         showMessage(
@@ -578,30 +816,20 @@
                         );
 
 
-                        // Clear inputs
-
                         codeInput.value =
                             "";
 
 
-                        // Reset Turnstile
-
-                        if (
-                            typeof turnstile !==
-                            "undefined"
-                        ) {
-
-                            turnstile.reset();
-                        }
+                        resetTurnstile();
 
 
                         return;
                     }
 
 
-                    // =============================
-                    // ERROR
-                    // =============================
+                    // =====================================
+                    // FAILURE
+                    // =====================================
 
                     showMessage(
                         result.message ||
@@ -610,21 +838,13 @@
                     );
 
 
-                    // Reset Turnstile
-
-                    if (
-                        typeof turnstile !==
-                        "undefined"
-                    ) {
-
-                        turnstile.reset();
-                    }
+                    resetTurnstile();
 
 
                 } catch (error) {
 
                     console.error(
-                        "Redeem error:",
+                        "Connection error:",
                         error
                     );
 
@@ -635,19 +855,14 @@
                     );
 
 
-                    if (
-                        typeof turnstile !==
-                        "undefined"
-                    ) {
+                    resetTurnstile();
 
-                        turnstile.reset();
-                    }
 
                 } finally {
 
-                    // =============================
-                    // ENABLE BUTTON
-                    // =============================
+                    // =====================================
+                    // ENABLE BUTTON AGAIN
+                    // =====================================
 
                     redeemButton.disabled =
                         false;
@@ -660,35 +875,49 @@
         );
 
 
-        // =========================================
+        // =====================================================
         // ENTER KEY
-        // =========================================
-
-        codeInput.addEventListener(
-            "keydown",
-            function (event) {
-
-                if (
-                    event.key === "Enter"
-                ) {
-
-                    redeemButton.click();
-                }
-
-            }
-        );
-
+        // =====================================================
 
         usernameInput.addEventListener(
             "keydown",
             function (event) {
 
                 if (
-                    event.key === "Enter"
+                    event.key ===
+                    "Enter"
                 ) {
 
                     redeemButton.click();
                 }
+            }
+        );
+
+
+        codeInput.addEventListener(
+            "keydown",
+            function (event) {
+
+                if (
+                    event.key ===
+                    "Enter"
+                ) {
+
+                    redeemButton.click();
+                }
+            }
+        );
+
+
+        // =====================================================
+        // START TURNSTILE
+        // =====================================================
+
+        window.addEventListener(
+            "load",
+            function () {
+
+                setupTurnstile();
 
             }
         );
