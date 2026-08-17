@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
 
@@ -11,22 +10,25 @@
 
     <title>Beta Access</title>
 
-    <style>
+    <!-- Cloudflare Turnstile -->
+    <script
+        src="https://challenges.cloudflare.com/turnstile/v0/api.js"
+        async
+        defer>
+    </script>
 
+    <style>
         * {
             box-sizing: border-box;
         }
 
         body {
             margin: 0;
-
             min-height: 100vh;
 
             display: flex;
-
-            justify-content: center;
-
             align-items: center;
+            justify-content: center;
 
             font-family:
                 Arial,
@@ -36,66 +38,42 @@
             background:
                 radial-gradient(
                     circle at top,
-                    #172554,
-                    #020617 70%
+                    #171f48,
+                    #080b20 70%
                 );
 
             color: white;
         }
 
         .container {
-            width: 90%;
-
+            width: 100%;
             max-width: 480px;
 
+            margin: 20px;
             padding: 40px;
 
-            background:
-                rgba(
-                    15,
-                    23,
-                    42,
-                    0.9
-                );
+            background: rgba(20, 25, 48, 0.92);
 
-            border:
-                1px solid
-                rgba(
-                    255,
-                    255,
-                    255,
-                    0.1
-                );
+            border: 1px solid
+                rgba(255, 255, 255, 0.12);
 
             border-radius: 24px;
 
             box-shadow:
-                0 25px 80px
-                rgba(
-                    0,
-                    0,
-                    0,
-                    0.5
-                );
+                0 20px 60px
+                rgba(0, 0, 0, 0.45);
 
             text-align: center;
-
-            backdrop-filter:
-                blur(20px);
         }
 
-        .logo {
-            width: 75px;
+        .icon {
+            width: 76px;
+            height: 76px;
 
-            height: 75px;
-
-            margin:
-                0 auto 20px;
+            margin: 0 auto 20px;
 
             display: flex;
-
             align-items: center;
-
             justify-content: center;
 
             border-radius: 20px;
@@ -103,41 +81,35 @@
             background:
                 linear-gradient(
                     135deg,
-                    #3b82f6,
-                    #6366f1
+                    #5b82ee,
+                    #7354df
                 );
 
-            font-size: 35px;
+            font-size: 38px;
 
             box-shadow:
-                0 10px 40px
-                rgba(
-                    59,
-                    130,
-                    246,
-                    0.4
-                );
+                0 10px 30px
+                rgba(91, 130, 238, 0.3);
         }
 
         h1 {
-            margin:
-                0 0 10px;
+            margin: 0 0 12px;
 
-            font-size: 32px;
+            font-size: 34px;
         }
 
         .description {
-            color: #94a3b8;
+            margin: 0 0 26px;
 
-            line-height: 1.6;
+            color: #9da5bd;
 
-            margin-bottom: 25px;
+            font-size: 16px;
+
+            line-height: 1.5;
         }
 
-        .highlight {
-            color: #60a5fa;
-
-            font-weight: bold;
+        .description strong {
+            color: #70a0ff;
         }
 
         input {
@@ -149,36 +121,24 @@
 
             border-radius: 12px;
 
-            border:
-                1px solid
-                rgba(
-                    255,
-                    255,
-                    255,
-                    0.1
-                );
+            border: 1px solid
+                rgba(255, 255, 255, 0.13);
 
-            background: #0f172a;
+            background: #11162b;
 
             color: white;
 
-            outline: none;
+            font-size: 16px;
 
-            font-size: 15px;
+            outline: none;
         }
 
         input:focus {
-            border-color:
-                #3b82f6;
+            border-color: #637df0;
+        }
 
-            box-shadow:
-                0 0 0 3px
-                rgba(
-                    59,
-                    130,
-                    246,
-                    0.15
-                );
+        input::placeholder {
+            color: #7e869e;
         }
 
         button {
@@ -186,15 +146,17 @@
 
             padding: 15px;
 
-            border: none;
+            margin-top: 4px;
+
+            border: 0;
 
             border-radius: 12px;
 
             background:
                 linear-gradient(
                     135deg,
-                    #3b82f6,
-                    #6366f1
+                    #597fec,
+                    #7353df
                 );
 
             color: white;
@@ -206,419 +168,532 @@
             cursor: pointer;
 
             transition:
-                transform 0.2s,
-                opacity 0.2s;
+                transform 0.15s,
+                opacity 0.15s;
         }
 
         button:hover {
-            transform:
-                translateY(-2px);
-
-            opacity: 0.95;
+            transform: translateY(-1px);
         }
 
         button:disabled {
-            opacity: 0.5;
+            opacity: 0.6;
 
-            cursor:
-                not-allowed;
+            cursor: not-allowed;
 
             transform: none;
         }
 
-        #message {
-            margin-top: 20px;
+        .turnstile-container {
+            display: flex;
 
-            min-height: 24px;
+            justify-content: center;
+
+            margin: 18px 0;
+        }
+
+        #message {
+            min-height: 25px;
+
+            margin-top: 22px;
+
+            font-size: 16px;
 
             font-weight: bold;
         }
 
         .success {
-            color: #4ade80;
+            color: #55e38b;
         }
 
         .error {
-            color: #f87171;
+            color: #ff626f;
+        }
+
+        .loading {
+            color: #9da5bd;
         }
 
         .footer {
-            margin-top: 25px;
+            margin-top: 28px;
 
-            color: #64748b;
+            color: #707993;
 
-            font-size: 12px;
+            font-size: 13px;
         }
 
+        @media (max-width: 520px) {
+
+            .container {
+                padding: 30px 22px;
+            }
+
+            h1 {
+                font-size: 30px;
+            }
+        }
     </style>
-
 </head>
-
 
 <body>
 
+    <div class="container">
 
-<div class="container">
+        <div class="icon">
+            🎟️
+        </div>
+
+        <h1>
+            Beta Access
+        </h1>
+
+        <p class="description">
+            To Get an Beta Code Get it From
+            <strong>notpoki13</strong>
+        </p>
 
 
-    <div class="logo">
-        🎟️
+        <!-- Roblox Username -->
+
+        <input
+            id="username"
+            type="text"
+            placeholder="Enter your Roblox username"
+            maxlength="50"
+            autocomplete="off"
+        >
+
+
+        <!-- Beta Code -->
+
+        <input
+            id="code"
+            type="text"
+            placeholder="Enter your beta code"
+            maxlength="50"
+            autocomplete="off"
+            autocapitalize="characters"
+        >
+
+
+        <!-- Cloudflare Turnstile -->
+
+        <div class="turnstile-container">
+
+            <div
+                class="cf-turnstile"
+                id="turnstile"
+                data-sitekey="0x4AAAAAAESKnGBqrCQqHaVm"
+                data-theme="dark"
+            ></div>
+
+        </div>
+
+
+        <!-- Redeem -->
+
+        <button
+            id="redeemButton"
+            type="button"
+        >
+            Redeem Beta Code
+        </button>
+
+
+        <!-- Result -->
+
+        <div
+            id="message"
+            aria-live="polite">
+        </div>
+
+
+        <div class="footer">
+            Subliminal Beta Code System
+        </div>
+
     </div>
 
 
-    <h1>
-        Beta Access
-    </h1>
+    <script>
 
+        // =========================================
+        // CLOUDFLARE WORKER URL
+        // =========================================
 
-    <div class="description">
+        const API_URL =
+            "https://beta-code-api.omarksa938.workers.dev";
 
-        To Get an Beta Code Get it From
 
-        <span class="highlight">
-            notpoki13
-        </span>
+        // =========================================
+        // ELEMENTS
+        // =========================================
 
-    </div>
+        const usernameInput =
+            document.getElementById("username");
 
+        const codeInput =
+            document.getElementById("code");
 
-    <input
-        id="username"
-        type="text"
-        placeholder="Enter your username"
-        maxlength="50"
-        autocomplete="off"
-    >
+        const redeemButton =
+            document.getElementById("redeemButton");
 
+        const message =
+            document.getElementById("message");
 
-    <input
-        id="code"
-        type="text"
-        placeholder="Enter your beta code"
-        maxlength="45"
-        autocomplete="off"
-    >
 
+        // =========================================
+        // DEVICE ID
+        //
+        // This ID is stored locally in the browser.
+        // It is NOT a secret.
+        // =========================================
 
-    <button id="redeem">
+        function getDeviceId() {
 
-        Redeem Beta Code
+            const storageKey =
+                "subliminal_beta_device_id";
 
-    </button>
+            let deviceId =
+                localStorage.getItem(storageKey);
 
 
-    <div id="message"></div>
+            if (!deviceId) {
 
+                if (
+                    window.crypto &&
+                    crypto.randomUUID
+                ) {
 
-    <div class="footer">
+                    deviceId =
+                        crypto.randomUUID();
 
-        Beta Code System
+                } else {
 
-    </div>
+                    deviceId =
+                        Date.now().toString(36) +
+                        Math.random()
+                            .toString(36)
+                            .substring(2);
+                }
 
 
-</div>
-
-
-<script>
-
-
-// ==================================================
-// YOUR CLOUDFLARE WORKER URL
-// ==================================================
-
-const API_URL =
-    "https://beta-code-api.omarksa938.workers.dev";
-
-
-// ==================================================
-// GET ELEMENTS
-// ==================================================
-
-const usernameInput =
-    document.getElementById(
-        "username"
-    );
-
-const codeInput =
-    document.getElementById(
-        "code"
-    );
-
-const redeemButton =
-    document.getElementById(
-        "redeem"
-    );
-
-const message =
-    document.getElementById(
-        "message"
-    );
-
-
-// ==================================================
-// CREATE / GET BROWSER ID
-// ==================================================
-
-function getDeviceId() {
-
-    let deviceId =
-        localStorage.getItem(
-            "betaDeviceId"
-        );
-
-
-    // If this browser doesn't
-    // have an ID yet, create one.
-
-    if (!deviceId) {
-
-        deviceId =
-            crypto.randomUUID();
-
-        localStorage.setItem(
-            "betaDeviceId",
-            deviceId
-        );
-
-    }
-
-
-    return deviceId;
-
-}
-
-
-// ==================================================
-// CONVERT CODE TO UPPERCASE
-// ==================================================
-
-codeInput.addEventListener(
-    "input",
-    function () {
-
-        codeInput.value =
-            codeInput.value.toUpperCase();
-
-    }
-);
-
-
-// ==================================================
-// REDEEM BUTTON
-// ==================================================
-
-redeemButton.addEventListener(
-    "click",
-    async function () {
-
-
-        const username =
-            usernameInput.value.trim();
-
-
-        const code =
-            codeInput.value.trim();
-
-
-        // ------------------------------------------
-        // CLEAR OLD MESSAGE
-        // ------------------------------------------
-
-        message.className = "";
-
-        message.textContent = "";
-
-
-        // ------------------------------------------
-        // CHECK INPUT
-        // ------------------------------------------
-
-        if (!username) {
-
-            message.className =
-                "error";
-
-            message.textContent =
-                "❌ Please enter your username.";
-
-            return;
-
-        }
-
-
-        if (!code) {
-
-            message.className =
-                "error";
-
-            message.textContent =
-                "❌ Please enter your beta code.";
-
-            return;
-
-        }
-
-
-        // ------------------------------------------
-        // DISABLE BUTTON
-        // ------------------------------------------
-
-        redeemButton.disabled =
-            true;
-
-        redeemButton.textContent =
-            "Redeeming...";
-
-
-        try {
-
-
-            // --------------------------------------
-            // GET BROWSER ID
-            // --------------------------------------
-
-            const deviceId =
-                getDeviceId();
-
-
-            // --------------------------------------
-            // SEND REQUEST TO CLOUDFLARE
-            // --------------------------------------
-
-            const response =
-                await fetch(
-                    API_URL,
-                    {
-
-                        method:
-                            "POST",
-
-                        headers: {
-
-                            "Content-Type":
-                                "application/json"
-
-                        },
-
-                        body:
-                            JSON.stringify({
-
-                                username:
-                                    username,
-
-                                code:
-                                    code,
-
-                                deviceId:
-                                    deviceId
-
-                            })
-
-                    }
+                localStorage.setItem(
+                    storageKey,
+                    deviceId
                 );
-
-
-            // --------------------------------------
-            // READ RESPONSE
-            // --------------------------------------
-
-            let data;
-
-
-            try {
-
-                data =
-                    await response.json();
-
-            } catch {
-
-                throw new Error(
-                    "Invalid server response."
-                );
-
             }
 
 
-            // --------------------------------------
-            // SUCCESS
-            // --------------------------------------
+            return deviceId;
+        }
+
+
+        // =========================================
+        // MESSAGE
+        // =========================================
+
+        function showMessage(
+            text,
+            type
+        ) {
+
+            message.textContent =
+                text;
+
+            message.className =
+                type || "";
+        }
+
+
+        // =========================================
+        // GET TURNSTILE TOKEN
+        // =========================================
+
+        function getTurnstileToken() {
 
             if (
-                response.ok &&
-                data.success
+                typeof turnstile ===
+                "undefined"
             ) {
 
-                message.className =
-                    "success";
-
-                message.textContent =
-                    "✅ " +
-                    data.message;
-
-                codeInput.value = "";
-
-
+                return "";
             }
 
 
-            // --------------------------------------
-            // ERROR
-            // --------------------------------------
-
-            else {
-
-                message.className =
-                    "error";
-
-                message.textContent =
-                    "❌ " +
-                    (
-                        data.message ||
-                        "Something went wrong."
-                    );
-
-            }
-
-
-        } catch (error) {
-
-
-            console.error(
-                "Redeem error:",
-                error
-            );
-
-
-            message.className =
-                "error";
-
-
-            message.textContent =
-                "❌ Could not connect to the server.";
-
-
+            return turnstile.getResponse();
         }
 
 
-        // ------------------------------------------
-        // ENABLE BUTTON AGAIN
-        // ------------------------------------------
+        // =========================================
+        // REDEEM
+        // =========================================
 
-        redeemButton.disabled =
-            false;
+        redeemButton.addEventListener(
+            "click",
+            async function () {
 
-        redeemButton.textContent =
-            "Redeem Beta Code";
+                const username =
+                    usernameInput.value.trim();
+
+                const code =
+                    codeInput.value
+                        .trim()
+                        .toUpperCase();
 
 
-    }
-);
+                // ---------------------------------
+                // BASIC VALIDATION
+                // ---------------------------------
+
+                if (!username) {
+
+                    showMessage(
+                        "Please enter your Roblox username.",
+                        "error"
+                    );
+
+                    return;
+                }
 
 
-</script>
+                if (!code) {
 
+                    showMessage(
+                        "Please enter your beta code.",
+                        "error"
+                    );
+
+                    return;
+                }
+
+
+                // ---------------------------------
+                // TURNSTILE
+                // ---------------------------------
+
+                const turnstileToken =
+                    getTurnstileToken();
+
+
+                if (!turnstileToken) {
+
+                    showMessage(
+                        "Please complete the security check.",
+                        "error"
+                    );
+
+                    return;
+                }
+
+
+                // ---------------------------------
+                // DISABLE BUTTON
+                // ---------------------------------
+
+                redeemButton.disabled =
+                    true;
+
+                redeemButton.textContent =
+                    "Checking...";
+
+
+                showMessage(
+                    "Checking your beta code...",
+                    "loading"
+                );
+
+
+                try {
+
+                    // =============================
+                    // SEND TO WORKER
+                    // =============================
+
+                    const response =
+                        await fetch(
+                            API_URL,
+                            {
+                                method: "POST",
+
+                                headers: {
+                                    "Content-Type":
+                                        "application/json"
+                                },
+
+                                body:
+                                    JSON.stringify({
+
+                                        username:
+                                            username,
+
+                                        code:
+                                            code,
+
+                                        deviceId:
+                                            getDeviceId(),
+
+                                        turnstileToken:
+                                            turnstileToken
+                                    })
+                            }
+                        );
+
+
+                    // =============================
+                    // READ RESPONSE
+                    // =============================
+
+                    let result;
+
+
+                    try {
+
+                        result =
+                            await response.json();
+
+                    } catch {
+
+                        result = {
+                            success: false,
+                            message:
+                                "Server error."
+                        };
+                    }
+
+
+                    // =============================
+                    // SUCCESS
+                    // =============================
+
+                    if (
+                        response.ok &&
+                        result.success
+                    ) {
+
+                        showMessage(
+                            result.message ||
+                            "Beta code redeemed successfully!",
+                            "success"
+                        );
+
+
+                        // Clear inputs
+
+                        codeInput.value =
+                            "";
+
+
+                        // Reset Turnstile
+
+                        if (
+                            typeof turnstile !==
+                            "undefined"
+                        ) {
+
+                            turnstile.reset();
+                        }
+
+
+                        return;
+                    }
+
+
+                    // =============================
+                    // ERROR
+                    // =============================
+
+                    showMessage(
+                        result.message ||
+                        "You cannot use this code.",
+                        "error"
+                    );
+
+
+                    // Reset Turnstile
+
+                    if (
+                        typeof turnstile !==
+                        "undefined"
+                    ) {
+
+                        turnstile.reset();
+                    }
+
+
+                } catch (error) {
+
+                    console.error(
+                        "Redeem error:",
+                        error
+                    );
+
+
+                    showMessage(
+                        "Could not connect to the server.",
+                        "error"
+                    );
+
+
+                    if (
+                        typeof turnstile !==
+                        "undefined"
+                    ) {
+
+                        turnstile.reset();
+                    }
+
+                } finally {
+
+                    // =============================
+                    // ENABLE BUTTON
+                    // =============================
+
+                    redeemButton.disabled =
+                        false;
+
+                    redeemButton.textContent =
+                        "Redeem Beta Code";
+                }
+
+            }
+        );
+
+
+        // =========================================
+        // ENTER KEY
+        // =========================================
+
+        codeInput.addEventListener(
+            "keydown",
+            function (event) {
+
+                if (
+                    event.key === "Enter"
+                ) {
+
+                    redeemButton.click();
+                }
+
+            }
+        );
+
+
+        usernameInput.addEventListener(
+            "keydown",
+            function (event) {
+
+                if (
+                    event.key === "Enter"
+                ) {
+
+                    redeemButton.click();
+                }
+
+            }
+        );
+
+    </script>
 
 </body>
-
 </html>
